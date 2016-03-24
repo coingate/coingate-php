@@ -1,0 +1,25 @@
+{
+    "name": "coingate/coingate-php",
+    "type": "library",
+    "description": "CoinGate library for PHP",
+    "keywords": [
+      "coingate",
+      "bitcoin",
+      "merchant"
+    ],
+    "homepage": "https://coingate.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "CoinGate and contributors",
+            "homepage": "https://github.com/coingate/coingate-php/graphs/contributors",
+        }
+    ],
+    "require": {
+      "ext-curl": "*",
+      "ext-json": "*"
+    },
+    "autoload": {
+      "psr-4": { "CoinGate\\" : "lib/" }
+    }
+}
