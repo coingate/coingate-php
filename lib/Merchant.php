@@ -34,12 +34,12 @@ class Merchant extends CoinGate
     $this->setApiUrl();
   }
 
-  public function createOrder()
+  public function createOrder($params = array())
   {
     $this->request('/orders', 'POST', $params);
   }
 
-  public function getOrder()
+  public function getOrder($order_id)
   {
     $this->request('/orders/' . $order_id);
   }
