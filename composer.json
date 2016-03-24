@@ -12,7 +12,7 @@
     "authors": [
         {
             "name": "CoinGate and contributors",
-            "homepage": "https://github.com/coingate/coingate-php/graphs/contributors",
+            "homepage": "https://github.com/coingate/coingate-php/graphs/contributors"
         }
     ],
     "require": {
@@ -20,6 +20,8 @@
       "ext-json": "*"
     },
     "autoload": {
-      "psr-4": { "CoinGate\\" : "lib/" }
+      "psr-4": {
+        "CoinGate\\" : "lib/"
+      }
     }
 }
