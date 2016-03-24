@@ -3,8 +3,6 @@ namespace CoinGate;
 
 class Merchant extends CoinGate
 {
-  const VERSION = '1.0.0';
-
   private $app_id             = '';
   private $api_key            = '';
   private $api_secret         = '';
@@ -12,7 +10,6 @@ class Merchant extends CoinGate
   private $version            = 'v1';
   private $api_url            = '';
   private $user_agent         = '';
-  private $user_agent_origin  = 'CoinGate PHP Merchant Class';
 
   public function __construct($config = array())
   {
@@ -30,7 +27,7 @@ class Merchant extends CoinGate
       }
 
       if (empty($this->user_agent)) {
-        $this->user_agent = $this->user_agent_origin . ' v' . self::VERSION;
+        $this->user_agent = parent::USER_AGENT_ORIGIN . ' v' . parent::VERSION;
       }
     }
 
