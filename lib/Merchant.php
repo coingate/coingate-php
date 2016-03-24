@@ -1,7 +1,7 @@
 <?php
 namespace CoinGate;
 
-class Merchant
+class Merchant extends CoinGate
 {
   const VERSION = '1.0.0';
 
