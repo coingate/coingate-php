@@ -33,7 +33,7 @@ Usage of CoinGate PHP library.
 https://developer.coingate.com/docs/create-order
 
 ```php
-$coingate = \CoinGate\Merchant.new(array('app_id' => 'YOUR_APP_ID', 'api_key' => 'YOUR_API_KEY', 'api_secret' => 'YOUR_API_SECRET'));
+$coingate = new \CoinGate\Merchant(array('app_id' => 'YOUR_APP_ID', 'api_key' => 'YOUR_API_KEY', 'api_secret' => 'YOUR_API_SECRET'));
 
 $coingate->createOrder(array(
                            'order_id'          => 'YOUR-CUSTOM-ORDER-ID-115',
@@ -63,7 +63,7 @@ if ($coingate->success) {
 https://developer.coingate.com/docs/get-order
 
 ```php
-$coingate = \CoinGate\Merchant.new(array('app_id' => 'YOUR_APP_ID', 'api_key' => 'YOUR_API_KEY', 'api_secret' => 'YOUR_API_SECRET'));
+$coingate = new \CoinGate\Merchant(array('app_id' => 'YOUR_APP_ID', 'api_key' => 'YOUR_API_KEY', 'api_secret' => 'YOUR_API_SECRET'));
 $coingate->getOrder(1087999);
 
 echo 'Response HTTP Status: ' . $coingate_service->status_code . "\n";
