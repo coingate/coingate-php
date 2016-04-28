@@ -49,8 +49,6 @@ $order = \CoinGate\Merchant\Order.find(1087999, array('app_id' => 'YOUR_APP_ID',
 https://developer.coingate.com/docs/create-order
 
 ```php
-$coingate = new \CoinGate\Merchant();
-
 $post_params = array(
                    'order_id'          => 'YOUR-CUSTOM-ORDER-ID-115',
                    'price'             => 1050.99,
