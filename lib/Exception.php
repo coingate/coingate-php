@@ -5,7 +5,16 @@ class Exception
 {
     public static function formatError($error)
     {
-        return "{$error['reason']} {$error['message']}";
+        $reason = '';
+        $message = '';
+
+        if (isset($error['reason']))
+            $reason = $error['reason'];
+
+        if (isset($error['message']))
+            $message = $error['message'];
+
+        return "{$reason} {$message}";
     }
 
     public static function throwException($http_status, $error)

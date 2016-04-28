@@ -10,7 +10,7 @@ require(dirname(__FILE__) . '/lib/ApiError.php');
 require(dirname(__FILE__) . '/lib/Exception.php');
 
 // Merchant Class
-require(dirname(__FILE__) . '/lib/CoinGate/Merchant.php');
+require(dirname(__FILE__) . '/lib/Merchant.php');
 
 // Order Class
-require(dirname(__FILE__) . '/lib/CoinGate/Merchant/Order.php');
+require(dirname(__FILE__) . '/lib/Merchant/Order.php');

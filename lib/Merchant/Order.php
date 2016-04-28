@@ -1,6 +1,7 @@
 <?php
 namespace CoinGate\Merchant;
 
+use CoinGate\CoinGate;
 use CoinGate\Merchant;
 use CoinGate\OrderIsNotValid;
 use CoinGate\OrderNotFound;
@@ -35,7 +36,7 @@ class Order extends Merchant
 
     public static function findOrFail($orderId, $authentication = array())
     {
-        $order = \CoinGate::request('/orders/' . $orderId, 'GET', array(), $authentication);
+        $order = CoinGate::request('/orders/' . $orderId, 'GET', array(), $authentication);
 
         return new self($order);
     }
@@ -51,7 +52,7 @@ class Order extends Merchant
 
     public static function createOrFail($params, $authentication = array())
     {
-        $order = \CoinGate::request('/orders', 'POST', $params, $authentication);
+        $order = CoinGate::request('/orders', 'POST', $params, $authentication);
 
         return new self($order);
     }
