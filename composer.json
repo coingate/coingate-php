@@ -2,6 +2,7 @@
     "name": "coingate/coingate-php",
     "type": "library",
     "description": "CoinGate library for PHP",
+    "version": "2.0.0",
     "keywords": [
       "coingate",
       "bitcoin",
