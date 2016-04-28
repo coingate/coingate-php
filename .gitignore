@@ -74,3 +74,4 @@ $RECYCLE.BIN/
 /.idea
 /vendor
 composer.lock
+clover.xml
