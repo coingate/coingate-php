@@ -28,33 +28,47 @@ require_once('/path/to/coingate-php/init.php');
 
 Usage of CoinGate PHP library.
 
+### Setting up CoinGate library
+
+#### Setting default authentication
+
+```php
+\CoinGate\CoinGate.config(array('app_id' => 'YOUR_APP_ID', 'api_key' => 'YOUR_API_KEY', 'api_secret' => 'YOUR_API_SECRET'));
+
+$order = \CoinGate\Merchant\Order.find(1087999);
+```
+
+#### Setting authentication individually
+
+```php
+$order = \CoinGate\Merchant\Order.find(1087999, array('app_id' => 'YOUR_APP_ID', 'api_key' => 'YOUR_API_KEY', 'api_secret' => 'YOUR_API_SECRET'));
+```
+
 ### Creating Merchant Order
 
 https://developer.coingate.com/docs/create-order
 
 ```php
-$coingate = new \CoinGate\Merchant(array('app_id' => 'YOUR_APP_ID', 'api_key' => 'YOUR_API_KEY', 'api_secret' => 'YOUR_API_SECRET'));
+$coingate = new \CoinGate\Merchant();
 
-$coingate->createOrder(array(
-                           'order_id'          => 'YOUR-CUSTOM-ORDER-ID-115',
-                           'price'             => 1050.99,
-                           'currency'          => 'USD',
-                           'receive_currency'  => 'EUR',
-                           'callback_url'      => 'https://example.com/payments/callback?token=6tCENGUYI62ojkuzDPX7Jg',
-                           'cancel_url'        => 'https://example.com/cart',
-                           'success_url'       => 'https://example.com/account/orders',
-                           'title'             => 'Order #112',
-                           'description'       => 'Apple Iphone 6'
-                       ));
+$post_params = array(
+                   'order_id'          => 'YOUR-CUSTOM-ORDER-ID-115',
+                   'price'             => 1050.99,
+                   'currency'          => 'USD',
+                   'receive_currency'  => 'EUR',
+                   'callback_url'      => 'https://example.com/payments/callback?token=6tCENGUYI62ojkuzDPX7Jg',
+                   'cancel_url'        => 'https://example.com/cart',
+                   'success_url'       => 'https://example.com/account/orders',
+                   'title'             => 'Order #112',
+                   'description'       => 'Apple Iphone 6'
+               );
 
-echo 'Response HTTP Status: ' . $coingate->status_code . "\n";
+$order = \CoinGate\Merchant\Order.create($post_params);
 
-if ($coingate->success) {
-    echo 'SUCCESS' . "\n";
-    var_dump(json_decode($coingate->response));
+if ($order) {
+    echo $order->status;
 } else {
-    echo 'FAIL' . "\n";
-    echo $coingate->response;
+    # Order Is Not Valid
 }
 ```
 
@@ -63,17 +77,12 @@ if ($coingate->success) {
 https://developer.coingate.com/docs/get-order
 
 ```php
-$coingate = new \CoinGate\Merchant(array('app_id' => 'YOUR_APP_ID', 'api_key' => 'YOUR_API_KEY', 'api_secret' => 'YOUR_API_SECRET'));
-$coingate->getOrder(1087999);
+$order = \CoinGate\Merchant\Order.find(1087999);
 
-echo 'Response HTTP Status: ' . $coingate_service->status_code . "\n";
-
-if ($coingate->success) {
-    echo 'SUCCESS' . "\n";
-    var_dump(json_decode($coingate->response));
+if ($order) {
+    echo $order->status;
 } else {
-    echo 'FAIL' . "\n";
-    echo $coingate->response;
+    # Order Not Found
 }
 ```
 
