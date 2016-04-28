@@ -72,3 +72,5 @@ $RECYCLE.BIN/
 .Trash-*
 
 /.idea
+/vendor
+composer.lock
