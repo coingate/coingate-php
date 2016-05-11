@@ -26,11 +26,22 @@ class CoinGate
             self::$environment = $authentication['environment'];
     }
 
+    public static function testConnection()
+    {
+        try {
+            self::request('/auth/test', 'GET');
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
     public static function request($url, $method = 'POST', $params = array(), $authentication = array())
     {
-        $app_id       = isset($authentication['app_id']) ? $authentication['app_id'] : self::$app_id;
-        $app_key      = isset($authentication['api_key']) ? $authentication['api_key'] : self::$api_key;
-        $app_secret   = isset($authentication['api_secret']) ? $authentication['api_secret'] : self::$api_secret;
+        $app_id      = isset($authentication['app_id']) ? $authentication['app_id'] : self::$app_id;
+        $app_key     = isset($authentication['api_key']) ? $authentication['api_key'] : self::$api_key;
+        $app_secret  = isset($authentication['api_secret']) ? $authentication['api_secret'] : self::$api_secret;
         $environment = isset($authentication['environment']) ? $authentication['environment'] : self::$environment;
 
         # Check if credentials was passed
@@ -71,7 +82,7 @@ class CoinGate
         curl_setopt($curl, CURLOPT_USERAGENT, (self::USER_AGENT_ORIGIN + self::VERSION));
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
 
-        $response   = json_decode(curl_exec($curl), TRUE);
+        $response    = json_decode(curl_exec($curl), TRUE);
         $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         if ($http_status === 200)
