@@ -10,6 +10,7 @@ class CoinGate
     public static $api_key     = '';
     public static $api_secret  = '';
     public static $environment = 'live';
+    public static $user_agent  = self::USER_AGENT_ORIGIN . ' v' . self::VERSION;
 
     public static function config($authentication)
     {
@@ -24,6 +25,9 @@ class CoinGate
 
         if (isset($authentication['environment']))
             self::$environment = $authentication['environment'];
+
+        if (isset($authentication['user_agent']))
+            self::$user_agent = $authentication['user_agent'];
     }
 
     public static function testConnection($authentication = array())
@@ -43,6 +47,7 @@ class CoinGate
         $app_key     = isset($authentication['api_key']) ? $authentication['api_key'] : self::$api_key;
         $app_secret  = isset($authentication['api_secret']) ? $authentication['api_secret'] : self::$api_secret;
         $environment = isset($authentication['environment']) ? $authentication['environment'] : self::$environment;
+        $user_agent  = isset($authentication['user_agent']) ? $authentication['user_agent'] : self::$user_agent;
 
         # Check if credentials was passed
         if (empty($app_id) || empty($app_key) || empty($app_secret))
@@ -79,7 +84,7 @@ class CoinGate
 
         curl_setopt_array($curl, $curl_options);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($curl, CURLOPT_USERAGENT, (self::USER_AGENT_ORIGIN . self::VERSION));
+        curl_setopt($curl, CURLOPT_USERAGENT, $user_agent);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
 
         $response    = json_decode(curl_exec($curl), TRUE);
