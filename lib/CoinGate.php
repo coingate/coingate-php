@@ -26,10 +26,10 @@ class CoinGate
             self::$environment = $authentication['environment'];
     }
 
-    public static function testConnection()
+    public static function testConnection($authentication = array())
     {
         try {
-            self::request('/auth/test', 'GET');
+            self::request('/auth/test', 'GET', array(), $authentication);
 
             return true;
         } catch (\Exception $e) {
