@@ -33,15 +33,15 @@ Usage of CoinGate PHP library.
 #### Setting default authentication
 
 ```php
-\CoinGate\CoinGate.config(array('app_id' => 'YOUR_APP_ID', 'api_key' => 'YOUR_API_KEY', 'api_secret' => 'YOUR_API_SECRET'));
+\CoinGate\CoinGate::config(array('app_id' => 'YOUR_APP_ID', 'api_key' => 'YOUR_API_KEY', 'api_secret' => 'YOUR_API_SECRET'));
 
-$order = \CoinGate\Merchant\Order.find(1087999);
+$order = \CoinGate\Merchant\Order::find(1087999);
 ```
 
 #### Setting authentication individually
 
 ```php
-$order = \CoinGate\Merchant\Order.find(1087999, array('app_id' => 'YOUR_APP_ID', 'api_key' => 'YOUR_API_KEY', 'api_secret' => 'YOUR_API_SECRET'));
+$order = \CoinGate\Merchant\Order::find(1087999, array('app_id' => 'YOUR_APP_ID', 'api_key' => 'YOUR_API_KEY', 'api_secret' => 'YOUR_API_SECRET'));
 ```
 
 ### Creating Merchant Order
@@ -61,7 +61,7 @@ $post_params = array(
                    'description'       => 'Apple Iphone 6'
                );
 
-$order = \CoinGate\Merchant\Order.create($post_params);
+$order = \CoinGate\Merchant\Order::create($post_params);
 
 if ($order) {
     echo $order->status;
@@ -75,7 +75,7 @@ if ($order) {
 https://developer.coingate.com/docs/get-order
 
 ```php
-$order = \CoinGate\Merchant\Order.find(1087999);
+$order = \CoinGate\Merchant\Order::find(1087999);
 
 if ($order) {
     echo $order->status;
