@@ -25,32 +25,32 @@ class Order extends Merchant
         return $this->order[$name];
     }
 
-    public static function find($orderId, $authentication = array())
+    public static function find($orderId, $options = array(), $authentication = array())
     {
         try {
-            return self::findOrFail($orderId, $authentication);
+            return self::findOrFail($orderId, $options, $authentication);
         } catch (OrderNotFound $e) {
             return false;
         }
     }
 
-    public static function findOrFail($orderId, $authentication = array())
+    public static function findOrFail($orderId, $options = array(), $authentication = array())
     {
         $order = CoinGate::request('/orders/' . $orderId, 'GET', array(), $authentication);
 
         return new self($order);
     }
 
-    public static function create($params, $authentication = array())
+    public static function create($params, $options = array(), $authentication = array())
     {
         try {
-            return self::createOrFail($params, $authentication);
+            return self::createOrFail($params, $options, $authentication);
         } catch (OrderIsNotValid $e) {
             return false;
         }
     }
 
-    public static function createOrFail($params, $authentication = array())
+    public static function createOrFail($params, $options = array(), $authentication = array())
     {
         $order = CoinGate::request('/orders', 'POST', $params, $authentication);
 
