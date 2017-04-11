@@ -42,7 +42,12 @@ $order = \CoinGate\Merchant\Order::find(1087999);
 
 ```php
 # \CoinGate\Merchant\Order::find($orderId, $options = array(), $authentication = array())
-$order = \CoinGate\Merchant\Order::find(1087999, array(), array('app_id' => 'YOUR_APP_ID', 'api_key' => 'YOUR_API_KEY', 'api_secret' => 'YOUR_API_SECRET'));
+
+$order = \CoinGate\Merchant\Order::find(1087999, array(), array(
+    'environment' => 'sandbox', // sandbox OR live
+    'app_id' => 'YOUR_APP_ID',
+    'api_key' => 'YOUR_API_KEY',
+    'api_secret' => 'YOUR_API_SECRET'));
 ```
 
 ### Creating Merchant Order
@@ -84,4 +89,3 @@ if ($order) {
     # Order Not Found
 }
 ```
-
