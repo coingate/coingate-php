@@ -3,7 +3,7 @@ namespace CoinGate;
 
 class CoinGate
 {
-    const VERSION           = '2.0.0';
+    const VERSION           = '2.0.1';
     const USER_AGENT_ORIGIN = 'CoinGate PHP Library';
 
     public static $app_id      = '';
