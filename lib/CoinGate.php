@@ -61,7 +61,7 @@ class CoinGate
             \CoinGate\Exception::throwException(400, array('reason' => 'BadEnvironment', 'message' => "Environment does not exist. Available environments: $availableEnvironments"));
         }
 
-        $url       = ($environment === 'sandbox' ? 'https://sandbox.coingate.com/api/v1' : 'https://coingate.com/api/v1') . $url;
+        $url       = ($environment === 'sandbox' ? 'https://api-sandbox.coingate.com/v1' : 'https://api.coingate.com/v1') . $url;
         $nonce     = (int)(microtime(true) * 1e6);
         $message   = $nonce . $app_id . $app_key;
         $signature = hash_hmac('sha256', $message, $app_secret);
