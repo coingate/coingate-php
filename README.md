@@ -85,6 +85,8 @@ if ($order) {
 https://developer.coingate.com/docs/get-order
 
 ```php
+use CoinGate\CoinGate;
+
 $order = \CoinGate\Merchant\Order::find(1087999);
 
 if ($order) {
