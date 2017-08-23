@@ -95,3 +95,18 @@ if ($order) {
     # Order Not Found
 }
 ```
+
+### Test API Credentials
+
+```php
+$testConnection = \CoinGate\CoinGate::testConnection(array(
+  'environment'   => 'sandbox',
+  'app_id'        => 'APP_ID',
+  'api_key'       => 'APP_KEY',
+  'api_secret'    => 'APP_SECRET'
+));
+
+if ($testConnection !== true) {
+  echo $testConnection; // CoinGate\BadCredentials: BadCredentials Not found App by Access-Key
+}
+```
