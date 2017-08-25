@@ -40,18 +40,7 @@ use CoinGate\CoinGate;
   'api_secret'  => 'YOUR_API_SECRET'
 ));
 
-try {
-    $order = \CoinGate\Merchant\Order::find(7294);
-
-    if ($order) {
-      var_dump($order);
-    }
-    else {
-      echo 'Order not found';
-    }
-} catch (Exception $e) {
-  echo $e->getMessage(); // BadCredentials Not found App by Access-Key
-}
+// $order = \CoinGate\Merchant\Order::find(7294);
 ```
 
 #### Setting authentication individually
@@ -103,12 +92,17 @@ https://developer.coingate.com/docs/get-order
 ```php
 use CoinGate\CoinGate;
 
-$order = \CoinGate\Merchant\Order::find(1087999);
+try {
+    $order = \CoinGate\Merchant\Order::find(7294);
 
-if ($order) {
-    echo $order->status;
-} else {
-    # Order Not Found
+    if ($order) {
+      var_dump($order);
+    }
+    else {
+      echo 'Order not found';
+    }
+} catch (Exception $e) {
+  echo $e->getMessage(); // BadCredentials Not found App by Access-Key
 }
 ```
 
