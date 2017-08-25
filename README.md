@@ -35,7 +35,18 @@ use CoinGate\CoinGate;
 
 \CoinGate\CoinGate::config(array('app_id' => 'YOUR_APP_ID', 'api_key' => 'YOUR_API_KEY', 'api_secret' => 'YOUR_API_SECRET'));
 
-$order = \CoinGate\Merchant\Order::find(1087999);
+try {
+    $order = \CoinGate\Merchant\Order::find(7294);
+
+    if ($order) {
+      var_dump($order);
+    }
+    else {
+      echo 'Order not found';
+    }
+} catch (Exception $e) {
+  echo $e->getMessage(); // BadCredentials Not found App by Access-Key
+}
 ```
 
 #### Setting authentication individually
