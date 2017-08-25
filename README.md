@@ -33,7 +33,12 @@ Usage of CoinGate PHP library.
 ```php
 use CoinGate\CoinGate;
 
-\CoinGate\CoinGate::config(array('app_id' => 'YOUR_APP_ID', 'api_key' => 'YOUR_API_KEY', 'api_secret' => 'YOUR_API_SECRET'));
+\CoinGate\CoinGate::config(array(
+  'environment' => 'sandbox', // sandbox OR live
+  'app_id'      => 'YOUR_APP_ID', 
+  'api_key'     => 'YOUR_API_KEY', 
+  'api_secret'  => 'YOUR_API_SECRET'
+));
 
 try {
     $order = \CoinGate\Merchant\Order::find(7294);
