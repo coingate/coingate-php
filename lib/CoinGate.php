@@ -85,7 +85,7 @@ class CoinGate
         curl_setopt_array($curl, $curl_options);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_USERAGENT, $user_agent);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, TRUE);
 
         $response    = json_decode(curl_exec($curl), TRUE);
         $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
