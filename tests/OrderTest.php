@@ -37,13 +37,14 @@ class OrderTest extends TestCase
 
     public static function getGoodPostParams() {
         return array(
-            'order_id'          => 'ORDER-1412759368',
-            'price'             => 1050.99,
-            'currency'          => 'USD',
+            'order_id'          => 'YOUR-CUSTOM-ORDER-ID-115',
+            'price_amount'      => 1000.99,
+            'price_currency'    => 'USD',
             'receive_currency'  => 'EUR',
             'callback_url'      => 'https://example.com/payments/callback?token=6tCENGUYI62ojkuzDPX7Jg',
             'cancel_url'        => 'https://example.com/cart',
             'success_url'       => 'https://example.com/account/orders',
+            'title'             => 'Order #112',
             'description'       => 'Apple Iphone 6'
         );
     }
