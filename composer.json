@@ -6,7 +6,11 @@
   "keywords": [
     "coingate",
     "bitcoin",
-    "merchant"
+    "litecoin",
+    "altcoin",
+    "merchant",
+    "gateway",
+    "payment"
   ],
   "homepage": "https://coingate.com",
   "license": "MIT",
