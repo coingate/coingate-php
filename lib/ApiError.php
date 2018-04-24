@@ -22,5 +22,8 @@ class OrderNotFound extends NotFound {}
 class UnprocessableEntity extends APIError {}
 class OrderIsNotValid extends UnprocessableEntity {}
 
+# HTTP Status 429
+class RateLimitException extends APIError {}
+
 # HTTP Status 500
 class InternalServerError extends APIError {}

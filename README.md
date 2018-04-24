@@ -1,4 +1,4 @@
-# CoinGate PHP library
+# CoinGate PHP library for API v2
 
 PHP library for CoinGate API.
 
@@ -34,10 +34,9 @@ Usage of CoinGate PHP library.
 use CoinGate\CoinGate;
 
 \CoinGate\CoinGate::config(array(
-  'environment' => 'sandbox', // sandbox OR live
-  'app_id'      => 'YOUR_APP_ID', 
-  'api_key'     => 'YOUR_API_KEY', 
-  'api_secret'  => 'YOUR_API_SECRET'
+    'environment'               => 'sandbox', // sandbox OR live
+    'auth_token'                => 'YOUR_AUTH_TOKEN',
+    'curlopt_ssl_verifypeer'    => TRUE // default is false
 ));
 
 // $order = \CoinGate\Merchant\Order::find(7294);
@@ -52,9 +51,7 @@ use CoinGate\CoinGate;
 
 $order = \CoinGate\Merchant\Order::find(1087999, array(), array(
     'environment' => 'sandbox', // sandbox OR live
-    'app_id' => 'YOUR_APP_ID',
-    'api_key' => 'YOUR_API_KEY',
-    'api_secret' => 'YOUR_API_SECRET'));
+    'auth_token' => 'YOUR_AUTH_TOKEN'));
 ```
 
 ### Creating Merchant Order
@@ -66,8 +63,8 @@ use CoinGate\CoinGate;
 
 $post_params = array(
                    'order_id'          => 'YOUR-CUSTOM-ORDER-ID-115',
-                   'price'             => 1050.99,
-                   'currency'          => 'USD',
+                   'price_amount'      => 1050.99,
+                   'price_currency'    => 'USD',
                    'receive_currency'  => 'EUR',
                    'callback_url'      => 'https://example.com/payments/callback?token=6tCENGUYI62ojkuzDPX7Jg',
                    'cancel_url'        => 'https://example.com/cart',
@@ -80,6 +77,8 @@ $order = \CoinGate\Merchant\Order::create($post_params);
 
 if ($order) {
     echo $order->status;
+    
+    print_r($order);
 } else {
     # Order Is Not Valid
 }
@@ -111,9 +110,7 @@ try {
 ```php
 $testConnection = \CoinGate\CoinGate::testConnection(array(
   'environment'   => 'sandbox',
-  'app_id'        => 'APP_ID',
-  'api_key'       => 'APP_KEY',
-  'api_secret'    => 'APP_SECRET'
+  'auth_token'    => 'YOUR_AUTH_TOKEN'
 ));
 
 if ($testConnection !== true) {

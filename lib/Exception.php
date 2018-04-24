@@ -45,6 +45,10 @@ class Exception
                     case 'OrderIsNotValid': throw new OrderIsNotValid(self::formatError($error));
                     default: throw new UnprocessableEntity(self::formatError($error));
                 }
+            case 429:
+                switch ($reason) {
+                    default: throw new RateLimitException(self::formatError($error));
+                }
             case 500:
                 switch ($reason) {
                     default: throw new InternalServerError(self::formatError($error));
