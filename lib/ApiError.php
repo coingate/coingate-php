@@ -11,6 +11,7 @@ class BadEnvironment extends BadRequest {}
 # HTTP Status 401
 class Unauthorized extends APIError {}
 class BadCredentials extends Unauthorized {}
+class BadAuthToken extends Unauthorized {}
 
 # HTTP Status 404
 class NotFound extends APIError {}

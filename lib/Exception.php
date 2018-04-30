@@ -31,6 +31,7 @@ class Exception
             case 401:
                 switch ($reason) {
                     case 'BadCredentials': throw new BadCredentials(self::formatError($error));
+                    case 'BadAuthToken': throw new BadAuthToken(self::formatError($error));
                     default: throw new Unauthorized(self::formatError($error));
                 }
             case 404:
