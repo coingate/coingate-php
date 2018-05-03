@@ -32,6 +32,8 @@ class Exception
                 switch ($reason) {
                     case 'BadCredentials': throw new BadCredentials(self::formatError($error));
                     case 'BadAuthToken': throw new BadAuthToken(self::formatError($error));
+                    case 'AccountBlocked': throw new AccountBlocked(self::formatError($error));
+                    case 'IpAddressIsNotAllowed': throw new IpAddressIsNotAllowed(self::formatError($error));
                     default: throw new Unauthorized(self::formatError($error));
                 }
             case 404:
@@ -47,13 +49,11 @@ class Exception
                     default: throw new UnprocessableEntity(self::formatError($error));
                 }
             case 429:
-                switch ($reason) {
-                    default: throw new RateLimitException(self::formatError($error));
-                }
+                throw new RateLimitException(self::formatError($error));
             case 500:
-                switch ($reason) {
-                    default: throw new InternalServerError(self::formatError($error));
-                }
+                throw new InternalServerError(self::formatError($error));
+            case 504:
+                throw new InternalServerError(self::formatError($error));
             default: throw new APIError(self::formatError($error));
         }
     }
