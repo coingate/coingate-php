@@ -21,6 +21,9 @@ class CoinGate
 
         if (isset($authentication['user_agent']))
             self::$user_agent = $authentication['user_agent'];
+        
+        if (isset($authentication['curlopt_ssl_verifypeer'])) 
+            self::$curlopt_ssl_verifypeer = $authentication['curlopt_ssl_verifypeer'];
     }
 
     public static function testConnection($authentication = array())
