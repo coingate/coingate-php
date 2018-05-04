@@ -3,7 +3,7 @@ namespace CoinGate;
 
 class CoinGate
 {
-    const VERSION           = '3.0.0';
+    const VERSION           = '3.0.1';
     const USER_AGENT_ORIGIN = 'CoinGate PHP Library';
 
     public static $auth_token  = '';
