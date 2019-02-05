@@ -1,6 +1,24 @@
 <?php
 namespace CoinGate;
 
+use CoinGate\APIError\CredentialsMissing;
+use CoinGate\APIError\BadEnvironment;
+use CoinGate\APIError\BadRequest;
+use CoinGate\APIError\BadCredentials;
+use CoinGate\APIError\BadAuthToken;
+use CoinGate\APIError\AccountBlocked;
+use CoinGate\APIError\IpAddressIsNotAllowed;
+use CoinGate\APIError\Unauthorized;
+use CoinGate\APIError\PageNotFound;
+use CoinGate\APIError\RecordNotFound;
+use CoinGate\APIError\OrderNotFound;
+use CoinGate\APIError\NotFound;
+use CoinGate\APIError\OrderIsNotValid;
+use CoinGate\APIError\UnprocessableEntity;
+use CoinGate\APIError\RateLimitException;
+use CoinGate\APIError\InternalServerError;
+use CoinGate\APIError\APIError;
+
 class Exception
 {
     public static function formatError($error)

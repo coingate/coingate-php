@@ -3,8 +3,8 @@ namespace CoinGate\Merchant;
 
 use CoinGate\CoinGate;
 use CoinGate\Merchant;
-use CoinGate\OrderIsNotValid;
-use CoinGate\OrderNotFound;
+use CoinGate\APIError\OrderIsNotValid;
+use CoinGate\APIError\OrderNotFound;
 
 class Order extends Merchant
 {
