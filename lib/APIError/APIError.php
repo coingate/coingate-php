@@ -1,4 +1,7 @@
 <?php
+
 namespace CoinGate\APIError;
 
-class APIError extends \Exception {}
+class APIError extends \Exception
+{
+}

@@ -1,5 +1,10 @@
 <?php
-namespace CoinGate\APIError;;
+
+namespace CoinGate\APIError;
+
+;
 
 # HTTP Status 404
-class PageNotFound extends NotFound{}
+class PageNotFound extends NotFound
+{
+}

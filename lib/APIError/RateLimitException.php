@@ -1,6 +1,9 @@
 <?php
+
 namespace CoinGate\APIError;
 
 # HTTP Status 429
-class RateLimitException extends APIError {}
+class RateLimitException extends APIError
+{
+}
 
