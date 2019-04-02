@@ -33,6 +33,13 @@ class Order extends Merchant
             return false;
         }
     }
+    
+    public static function get_all($authentication = array())
+    {
+        $order = CoinGate::request('/orders', 'GET', array(), $authentication);
+
+        return new self($order);
+    }
 
     public static function findOrFail($orderId, $options = array(), $authentication = array())
     {
