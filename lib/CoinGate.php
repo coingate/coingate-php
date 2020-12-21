@@ -4,13 +4,13 @@ namespace CoinGate;
 
 class CoinGate
 {
-    const VERSION = '3.0.4';
+    const VERSION = '3.0.5';
     const USER_AGENT_ORIGIN = 'CoinGate PHP Library';
 
     public static $auth_token = '';
     public static $environment = 'live';
     public static $user_agent = '';
-    public static $curlopt_ssl_verifypeer = false;
+    public static $curlopt_ssl_verifypeer = true;
 
     public static function config($authentication)
     {
