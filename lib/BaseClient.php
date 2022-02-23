@@ -24,7 +24,7 @@ use CoinGate\HttpClient\CurlClient;
  *
  * @property \CoinGate\Services\OrderService $order
  */
-abstract class BaseClient implements ClientInterface
+class BaseClient implements ClientInterface
 {
     /**
      * @var string
@@ -60,7 +60,7 @@ abstract class BaseClient implements ClientInterface
      * @param string $apiKey
      * @param bool|false $useSandboxEnv
      */
-    public function __construct(string $apiKey, bool $useSandboxEnv = false)
+    public function __construct($apiKey, bool $useSandboxEnv = false)
     {
         $config = array_merge($this->getDefaultConfig(), [
             'api_key' => $apiKey,

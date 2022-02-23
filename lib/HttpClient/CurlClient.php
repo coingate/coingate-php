@@ -22,6 +22,11 @@ class CurlClient implements ClientInterface
     private $connectTimeout = self::DEFAULT_CONNECT_TIMEOUT;
 
     /**
+     * @var array
+     */
+    protected $defaultOptions;
+
+    /**
      * singleton object
      *
      * @var self
@@ -38,6 +43,22 @@ class CurlClient implements ClientInterface
         }
 
         return static::$instance;
+    }
+
+    /**
+     * @param null|array|callable $defaultOptions
+     */
+    public function __construct($defaultOptions = null)
+    {
+        $this->defaultOptions = $defaultOptions;
+    }
+
+    /**
+     * @return array|callable|null
+     */
+    public function getDefaultOptions()
+    {
+        return $this->defaultOptions;
     }
 
     /**
@@ -89,6 +110,22 @@ class CurlClient implements ClientInterface
     {
         $method = strtolower($method);
         $options = [];
+
+        // -------------------------------------------------
+        // -------------------------------------------------
+
+        if (is_callable($this->defaultOptions)) {
+            $options = call_user_func_array($this->defaultOptions, func_get_args());
+
+            if (! is_array($options)) {
+                throw new UnexpectedValueException('Non-array value returned by defaultOptions CurlClient callback');
+            }
+        } elseif (is_array($this->defaultOptions)) {
+            $options = $this->defaultOptions;
+        }
+
+        // -------------------------------------------------
+        // -------------------------------------------------
 
         if ($method === 'get') {
             $options[CURLOPT_HTTPGET] = 1;

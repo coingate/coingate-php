@@ -29,11 +29,19 @@
     "ext-json": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5.7 || ^9.0"
+    "phpunit/phpunit": "^9.5"
   },
   "autoload": {
     "psr-4": {
       "CoinGate\\": "lib/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "CoinGate\\": [
+        "tests/",
+        "tests/CoinGate/"
+      ]
     }
   }
 }
