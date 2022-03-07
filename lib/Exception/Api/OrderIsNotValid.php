@@ -2,7 +2,6 @@
 
 namespace CoinGate\Exception\Api;
 
-
 use CoinGate\Exception\ApiErrorException;
 
 /**

@@ -89,7 +89,8 @@ class OrderServiceTest extends TestCase
         $this->assertNotEmpty($response);
     }
 
-    public static function getGoodPostParams(): array {
+    public static function getGoodPostParams(): array
+    {
         return [
             'order_id'          => 'YOUR-CUSTOM-ORDER-ID-115',
             'price_amount'      => 1050.99,

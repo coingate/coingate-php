@@ -2,27 +2,27 @@
 
 namespace CoinGate;
 
-use CoinGate\Exception\Api\{
-    BadAuthToken,
-    BadRequest,
-    NotFound,
-    OrderIsNotValid,
-    OrderNotFound,
-    Unauthorized,
-    UnprocessableEntity
-};
-
+use CoinGate\Exception\Api\BadAuthToken;
+use CoinGate\Exception\Api\BadRequest;
+use CoinGate\Exception\Api\NotFound;
+use CoinGate\Exception\Api\OrderIsNotValid;
+use CoinGate\Exception\Api\OrderNotFound;
+use CoinGate\Exception\Api\Unauthorized;
+use CoinGate\Exception\Api\UnprocessableEntity;
+use CoinGate\Exception\ApiErrorException;
 use CoinGate\Exception\InvalidArgumentException;
 use CoinGate\Exception\InternalServerError;
 use CoinGate\Exception\RateLimitException;
 use CoinGate\Exception\UnknownApiErrorException;
 use CoinGate\HttpClient\ClientInterface as HttpClientInterface;
 use CoinGate\HttpClient\CurlClient;
+use CoinGate\Services\OrderService;
+use Exception;
 
 /**
  * Client used to send requests to CoinGate's API
  *
- * @property \CoinGate\Services\OrderService $order
+ * @property OrderService $order
  */
 class BaseClient implements ClientInterface
 {
@@ -42,9 +42,9 @@ class BaseClient implements ClientInterface
     const SANDBOX_DEFAULT_API_BASE = 'https://api-sandbox.coingate.com';
 
     /**
-     * @var ClientInterface
+     * @var HttpClientInterface|null
      */
-    private static $httpClient;
+    protected static $httpClient = null;
 
     /**
      * @var array<string, mixed>
@@ -57,7 +57,7 @@ class BaseClient implements ClientInterface
      * The constructor takes a single argument. The argument can be a string, in which case it
      * should be the API key. It can also be an array with various configuration settings.
      *
-     * @param string $apiKey
+     * @param mixed $apiKey
      * @param bool|false $useSandboxEnv
      */
     public function __construct($apiKey, bool $useSandboxEnv = false)
@@ -125,7 +125,6 @@ class BaseClient implements ClientInterface
     private function validateConfig(array $config = [])
     {
         if ($config['api_key'] !== null) {
-
             if (! is_string($config['api_key'])) {
                 throw new InvalidArgumentException('api_key must be null or a string');
             }
@@ -137,7 +136,6 @@ class BaseClient implements ClientInterface
             if (preg_match('/\s/', $config['api_key'])) {
                 throw new InvalidArgumentException('api_key cannot contain whitespace');
             }
-
         }
 
         // api_base
@@ -182,13 +180,31 @@ class BaseClient implements ClientInterface
     }
 
     /**
+     * @param mixed $apiKey
+     * @param bool $useSandboxEnv
+     * @return bool
+     */
+    public static function testConnection($apiKey, bool $useSandboxEnv = false): bool
+    {
+        $client = new self($apiKey, $useSandboxEnv);
+
+        try {
+            $client->request('get', '/v2/auth/test');
+
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
      * Send a request to CoinGate API.
      *
      * @param string $method the HTTP method
      * @param string $path the path of the request
      * @param array $params the parameters of the request
      *
-     * @throws
+     * @throws ApiErrorException
      */
     public function request(string $method, string $path, array $params = [])
     {
@@ -210,9 +226,8 @@ class BaseClient implements ClientInterface
             : $responseFormatted;
     }
 
-
     /**
-     * @throws
+     * @throws ApiErrorException
      */
     public function handleErrorResponse($response, $httpStatus)
     {
@@ -220,10 +235,7 @@ class BaseClient implements ClientInterface
 
         if ($httpStatus === 400) {
             throw BadRequest::factory($response, $httpStatus);
-        }
-
-        elseif ($httpStatus === 401) {
-
+        } elseif ($httpStatus === 401) {
             switch ($reason) {
                 case 'BadAuthToken':
                     throw BadAuthToken::factory($response, $httpStatus);
@@ -231,11 +243,7 @@ class BaseClient implements ClientInterface
                 default:
                     throw Unauthorized::factory($response, $httpStatus);
             }
-
-        }
-
-        elseif ($httpStatus === 404) {
-
+        } elseif ($httpStatus === 404) {
             switch ($reason) {
                 case 'OrderNotFound':
                     throw OrderNotFound::factory($response, $httpStatus);
@@ -243,11 +251,7 @@ class BaseClient implements ClientInterface
                 default:
                     throw NotFound::factory($response, $httpStatus);
             }
-
-        }
-
-        elseif ($httpStatus === 422) {
-
+        } elseif ($httpStatus === 422) {
             switch ($reason) {
                 case 'OrderIsNotValid':
                     throw OrderIsNotValid::factory($response, $httpStatus);
@@ -258,17 +262,11 @@ class BaseClient implements ClientInterface
                 default:
                     throw UnprocessableEntity::factory($response, $httpStatus);
             }
-
-        }
-
-        elseif ($httpStatus === 429) {
+        } elseif ($httpStatus === 429) {
             throw RateLimitException::factory($response, $httpStatus);
-        }
-
-        elseif (in_array($httpStatus, [500, 504])) {
+        } elseif (in_array($httpStatus, [500, 504])) {
             throw InternalServerError::factory($response, $httpStatus);
         }
-
 
         throw UnknownApiErrorException::factory($response, $httpStatus);
     }

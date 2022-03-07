@@ -29,9 +29,9 @@ class CurlClient implements ClientInterface
     /**
      * singleton object
      *
-     * @var self
+     * @var self|null
      */
-    protected static $instance;
+    protected static $instance = null;
 
     /**
      * @return self
@@ -39,7 +39,7 @@ class CurlClient implements ClientInterface
     public static function instance(): self
     {
         if (! static::$instance) {
-            static::$instance = new static();
+            static::$instance = new self();
         }
 
         return static::$instance;
@@ -133,23 +133,19 @@ class CurlClient implements ClientInterface
             if (! empty($params)) {
                 $absUrl = $absUrl . '?' . http_build_query($params);
             }
-
         } elseif (in_array($method, ['patch', 'post'])) {
-
             $options[CURLOPT_POST] = 1;
             $options[CURLOPT_POSTFIELDS] = http_build_query($params);
 
             if ($method === 'patch') {
                 $options[CURLOPT_CUSTOMREQUEST] = 'PATCH';
             }
-
         } elseif ($method === 'delete') {
             $options[CURLOPT_CUSTOMREQUEST] = 'DELETE';
 
             if (! empty($params)) {
                 $absUrl = $absUrl . '?' . http_build_query($params);
             }
-
         } else {
             throw new UnexpectedValueException("Unrecognized method $method");
         }
@@ -207,25 +203,27 @@ class CurlClient implements ClientInterface
     }
 
     /**
-     * @param $url
-     * @param $errno
-     * @param $message
+     * @param string $url
+     * @param int $errno
+     * @param string $message
      *
      * @throws ApiConnectionException
      */
-    private function handleCurlError($url, $errno, $message)
+    private function handleCurlError(string $url, int $errno, string $message)
     {
         switch ($errno) {
             case CURLE_COULDNT_CONNECT:
             case CURLE_COULDNT_RESOLVE_HOST:
             case CURLE_OPERATION_TIMEOUTED:
-                $response = "Could not connect to CoinGate ($url). Please check your internet connection and try again. ";
+                $response = "Could not connect to CoinGate ($url). "
+                    . "Please check your internet connection and try again. ";
 
                 break;
 
             case CURLE_SSL_CACERT:
             case CURLE_SSL_PEER_CERTIFICATE:
-                $response = "Could not verify CoinGate's SSL certificate. Please make sure that your network is not intercepting certificates. "
+                $response = "Could not verify CoinGate's SSL certificate. "
+                    . "Please make sure that your network is not intercepting certificates. "
                     . "(Try going to $url in your browser.) ";
 
                 break;

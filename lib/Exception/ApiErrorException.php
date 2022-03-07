@@ -29,7 +29,7 @@ class ApiErrorException extends Exception
      * @param int $code
      * @param Throwable|null $previous
      */
-    protected function __construct($message = "", $code = 0, Throwable $previous = null)
+    final protected function __construct($message = "", $code = 0, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }
@@ -37,14 +37,14 @@ class ApiErrorException extends Exception
     /**
      * Creates a new API error exception.
      *
-     * @param array $response
+     * @param mixed $response
      * @param int $httpStatus
      *
      * @return static
      */
-    public static function factory(array $response, int $httpStatus): ApiErrorException
+    public static function factory($response, int $httpStatus): ApiErrorException
     {
-        $instance = new static ($response['message'] ?? null);
+        $instance = new static($response['message'] ?? null);
         $instance
             ->setReason($response['reason'] ?? null)
             ->setErrorDetails($response['errors'] ?? [])
@@ -69,7 +69,7 @@ class ApiErrorException extends Exception
      * @param string|null $reason
      * @return self
      */
-    public function setReason(?string $reason): ApiErrorException
+    public function setReason(?string $reason): self
     {
         $this->reason = $reason;
 
@@ -92,7 +92,7 @@ class ApiErrorException extends Exception
      * @param array $errors
      * @return self
      */
-    public function setErrorDetails(array $errors = []): ApiErrorException
+    public function setErrorDetails(array $errors = []): self
     {
         $this->errors = $errors;
 
@@ -115,7 +115,7 @@ class ApiErrorException extends Exception
      * @param null|int $httpStatus
      * @return self
      */
-    public function setHttpStatus(?int $httpStatus = null): ApiErrorException
+    public function setHttpStatus(?int $httpStatus = null): self
     {
         $this->httpStatus = $httpStatus;
 

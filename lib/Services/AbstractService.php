@@ -51,10 +51,10 @@ abstract class AbstractService
      * Combine base path with parameters
      *
      * @param string $path
-     * @param array ...$ids
+     * @param mixed $ids
      * @return string
      */
-    protected function buildPath(string $path, ...$ids)
+    protected function buildPath(string $path, ...$ids): string
     {
         foreach ($ids as $id) {
             if ($id === null || trim($id) === '') {

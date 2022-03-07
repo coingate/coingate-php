@@ -35,7 +35,7 @@ class CurlClientTest extends TestCase
 
         // make sure closure-based options work properly, including argument passing
         $ref = null;
-        $withClosure = new CurlClient(function ($method, $absUrl, $headers, $params) use (& $ref) {
+        $withClosure = new CurlClient(function ($method, $absUrl, $headers, $params) use (&$ref) {
             $ref = func_get_args();
 
             return [];

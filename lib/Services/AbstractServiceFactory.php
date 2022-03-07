@@ -40,7 +40,6 @@ abstract class AbstractServiceFactory
     public function __get(string $name): ?AbstractService
     {
         if (($serviceClass = $this->getServiceClass($name)) !== null) {
-
             if (! array_key_exists($name, $this->services)) {
                 $this->services[$name] = new $serviceClass($this->client);
             }

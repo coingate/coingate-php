@@ -122,3 +122,15 @@ $curl->setConnectTimeout(5);
 
 // use the CoinBase API client as you normally would
 ```
+
+## Test API Connection
+
+```php
+$result = \CoinGate\Client::testConnection('YOUR_API_TOKEN');
+```
+
+In order, to test API connection on sandbox mode, you need to set second parameter to `true`.
+
+```php
+$result = \CoinGate\Client::testConnection('YOUR_API_TOKEN', true);
+```
