@@ -7,5 +7,4 @@ namespace CoinGate\Exception;
  */
 class RateLimitException extends ApiErrorException
 {
-
 }

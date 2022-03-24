@@ -51,7 +51,7 @@ $client = new \CoinGate\Client('YOUR_API_TOKEN', true);
 
 ## Payment Gateway
 
-### [Create Order]((https://developer.coingate.com/docs/create-order))
+### Create Order
 
 Create order at CoinGate and redirect shopper to invoice (payment_url).
 
@@ -77,7 +77,7 @@ try {
 echo $order->id;
 ```
 
-### [Checkout](https://developer.coingate.com/docs/checkout)
+### Checkout
 
 Placing created order with pre-selected payment currency (BTC, LTC, ETH, etc). Display payment_address and pay_amount for shopper or redirect to payment_url. Can be used to white-label invoices.
 
@@ -87,7 +87,7 @@ $checkout = $client->order->checkout(7294, [
 ]);
 ```
 
-### [Get Order](https://developer.coingate.com/docs/get-order)
+### Get Order
 
 After creating an order, you will get an ORDER ID. This ID will be used for GET ORDER requests.
 
@@ -95,7 +95,7 @@ After creating an order, you will get an ORDER ID. This ID will be used for GET 
 $order = $client->order->get(7294);
 ```
 
-### [List Orders](https://developer.coingate.com/docs/list-orders)
+### List Orders
 
 Retrieving information of all placed orders.
 

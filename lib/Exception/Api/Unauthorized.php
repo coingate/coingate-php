@@ -9,5 +9,4 @@ use CoinGate\Exception\ApiErrorException;
  */
 class Unauthorized extends ApiErrorException
 {
-
 }

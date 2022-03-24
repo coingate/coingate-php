@@ -11,7 +11,7 @@ class OrderService extends AbstractService
     /**
      * Create order at CoinGate and redirect shopper to invoice (payment_url).
      *
-     * @param array $params
+     * @param  string[] $params
      * @return CreateOrder|mixed
      */
     public function create(array $params = [])
@@ -20,8 +20,8 @@ class OrderService extends AbstractService
     }
 
     /**
-     * @param int $id
-     * @param array $params
+     * @param  int   $id
+     * @param  string[] $params
      * @return Checkout|mixed
      */
     public function checkout(int $id, array $params = [])
@@ -32,7 +32,7 @@ class OrderService extends AbstractService
     /**
      * Retrieving information of a specific order by CoinGate order ID.
      *
-     * @param int $id
+     * @param  int $id
      * @return Order|mixed
      */
     public function get(int $id)
@@ -43,7 +43,7 @@ class OrderService extends AbstractService
     /**
      * Retrieving information of all placed orders.
      *
-     * @param array $params
+     * @param  string[] $params
      * @return Order[]|mixed
      */
     public function list(array $params = [])

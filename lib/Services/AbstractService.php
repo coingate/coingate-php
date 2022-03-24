@@ -39,8 +39,9 @@ abstract class AbstractService
      * Send a request to CoinGate API.
      *
      * @param string $method the HTTP method
-     * @param string $path the path of the request
-     * @param array $params the parameters of the request
+     * @param string $path   the path of the request
+     * @param string[] $params the parameters of the request
+     * @return mixed
      */
     protected function request(string $method, string $path, array $params = [])
     {
@@ -50,8 +51,8 @@ abstract class AbstractService
     /**
      * Combine base path with parameters
      *
-     * @param string $path
-     * @param mixed $ids
+     * @param  string $path
+     * @param  mixed  $ids
      * @return string
      */
     protected function buildPath(string $path, ...$ids): string

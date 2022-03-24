@@ -4,5 +4,4 @@ namespace CoinGate\Exception;
 
 class InvalidArgumentException extends \InvalidArgumentException
 {
-
 }

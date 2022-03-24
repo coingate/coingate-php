@@ -18,7 +18,7 @@ class ServiceFactory extends AbstractServiceFactory
     ];
 
     /**
-     * @param string $name
+     * @param  string $name
      * @return string|null
      */
     protected function getServiceClass(string $name): ?string

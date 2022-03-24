@@ -9,5 +9,4 @@ namespace CoinGate\Resources;
  */
 class CreateOrder extends Order
 {
-
 }

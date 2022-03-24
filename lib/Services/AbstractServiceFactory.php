@@ -12,7 +12,7 @@ abstract class AbstractServiceFactory
     private $client;
 
     /**
-     * @var array
+     * @var array<string, AbstractService>
      */
     private $services;
 
@@ -28,27 +28,34 @@ abstract class AbstractServiceFactory
     /**
      * @param string $name
      *
-     * @return null|string
+     * @return string|null
      */
     abstract protected function getServiceClass(string $name): ?string;
 
     /**
      * @param string $name
-     *
      * @return AbstractService|null
      */
-    public function __get(string $name): ?AbstractService
+    public function __get(string $name)
     {
-        if (($serviceClass = $this->getServiceClass($name)) !== null) {
-            if (! array_key_exists($name, $this->services)) {
-                $this->services[$name] = new $serviceClass($this->client);
-            }
+        $serviceClass = $this->getServiceClass($name);
 
-            return $this->services[$name];
+        if ($serviceClass === null) {
+            trigger_error('Undefined property: ' . static::class . '::$' . $name);
+            return null;
         }
 
-        trigger_error('Undefined property: ' . static::class . '::$' . $name);
+        if (! isset($this->services[$name])) {
+            $object = new $serviceClass($this->client);
 
-        return null;
+            if (! ($object instanceof AbstractService)) {
+                trigger_error('Undefined property: ' . static::class . '::$' . $name);
+                return null;
+            }
+
+            $this->services[$name] = $object;
+        }
+
+        return $this->services[$name];
     }
 }

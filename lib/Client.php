@@ -2,6 +2,7 @@
 
 namespace CoinGate;
 
+use CoinGate\Services\AbstractService;
 use CoinGate\Services\ServiceFactory;
 
 /**
@@ -14,7 +15,11 @@ class Client extends BaseClient
      */
     private $factory;
 
-    public function __get($name)
+    /**
+     * @param string $name
+     * @return AbstractService|null
+     */
+    public function __get(string $name)
     {
         if ($this->factory === null) {
             $this->factory = new ServiceFactory($this);

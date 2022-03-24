@@ -8,25 +8,25 @@ use Throwable;
 class ApiErrorException extends Exception
 {
     /**
-     * @var string
+     * @var string|null
      */
     protected $reason;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $errors = [];
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $httpStatus;
 
     /**
      * protected constructor
      *
-     * @param string $message
-     * @param int $code
+     * @param string         $message
+     * @param int            $code
      * @param Throwable|null $previous
      */
     final protected function __construct($message = "", $code = 0, Throwable $previous = null)
@@ -38,7 +38,7 @@ class ApiErrorException extends Exception
      * Creates a new API error exception.
      *
      * @param mixed $response
-     * @param int $httpStatus
+     * @param int   $httpStatus
      *
      * @return static
      */
@@ -79,7 +79,7 @@ class ApiErrorException extends Exception
     /**
      * Gets additional error details (if available).
      *
-     * @return array
+     * @return string[]
      */
     public function getErrorDetails(): array
     {
@@ -89,7 +89,7 @@ class ApiErrorException extends Exception
     /**
      * Sets additional error details.
      *
-     * @param array $errors
+     * @param  string[] $errors
      * @return self
      */
     public function setErrorDetails(array $errors = []): self
@@ -112,7 +112,7 @@ class ApiErrorException extends Exception
     /**
      * Sets the HTTP status code.
      *
-     * @param null|int $httpStatus
+     * @param  int|null $httpStatus
      * @return self
      */
     public function setHttpStatus(?int $httpStatus = null): self

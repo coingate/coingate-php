@@ -12,5 +12,4 @@ namespace CoinGate\Resources;
  */
 class Checkout extends Order
 {
-
 }

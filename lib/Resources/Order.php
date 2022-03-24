@@ -23,5 +23,4 @@ namespace CoinGate\Resources;
  */
 class Order
 {
-
 }

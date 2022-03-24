@@ -29,17 +29,17 @@ class BaseClient implements ClientInterface
     /**
      * @var string
      */
-    const VERSION = '4.0.0';
+    public const VERSION = '4.0.0';
 
     /**
      * @var string default base URL for CoinBase's API
      */
-    const DEFAULT_API_BASE = 'https://api.coingate.com';
+    public const DEFAULT_API_BASE = 'https://api.coingate.com';
 
     /**
      * @var string default base URL for CoinBase's API
      */
-    const SANDBOX_DEFAULT_API_BASE = 'https://api-sandbox.coingate.com';
+    public const SANDBOX_DEFAULT_API_BASE = 'https://api-sandbox.coingate.com';
 
     /**
      * @var HttpClientInterface|null
@@ -57,15 +57,18 @@ class BaseClient implements ClientInterface
      * The constructor takes a single argument. The argument can be a string, in which case it
      * should be the API key. It can also be an array with various configuration settings.
      *
-     * @param mixed $apiKey
+     * @param mixed      $apiKey
      * @param bool|false $useSandboxEnv
      */
     public function __construct($apiKey, bool $useSandboxEnv = false)
     {
-        $config = array_merge($this->getDefaultConfig(), [
+        $config = array_merge(
+            $this->getDefaultConfig(),
+            [
             'api_key' => $apiKey,
             'environment' => ! $useSandboxEnv ? 'live' : 'sandbox'
-        ]);
+            ]
+        );
 
         $this->validateConfig($config);
 
@@ -108,7 +111,7 @@ class BaseClient implements ClientInterface
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     private function getDefaultConfig(): array
     {
@@ -120,7 +123,8 @@ class BaseClient implements ClientInterface
     }
 
     /**
-     * @param array $config
+     * @param array<string, mixed> $config
+     * @return void
      */
     private function validateConfig(array $config = [])
     {
@@ -159,8 +163,8 @@ class BaseClient implements ClientInterface
     }
 
     /**
-     * @param string $method
-     * @return array
+     * @param  string $method
+     * @return string[]
      */
     private function getDefaultHeaders(string $method): array
     {
@@ -174,14 +178,14 @@ class BaseClient implements ClientInterface
             $headers[] = 'Content-Type: application/x-www-form-urlencoded';
         }
 
-        $headers[] = 'User-Agent: CoinGate/v2 (PHP Library v'. self::VERSION .')';
+        $headers[] = 'User-Agent: CoinGate/v2 (PHP Library v' . self::VERSION . ')';
 
         return $headers;
     }
 
     /**
-     * @param mixed $apiKey
-     * @param bool $useSandboxEnv
+     * @param  mixed $apiKey
+     * @param  bool  $useSandboxEnv
      * @return bool
      */
     public static function testConnection($apiKey, bool $useSandboxEnv = false): bool
@@ -201,8 +205,8 @@ class BaseClient implements ClientInterface
      * Send a request to CoinGate API.
      *
      * @param string $method the HTTP method
-     * @param string $path the path of the request
-     * @param array $params the parameters of the request
+     * @param string $path   the path of the request
+     * @param array<string, string> $params the parameters of the request
      *
      * @throws ApiErrorException
      */
@@ -229,7 +233,15 @@ class BaseClient implements ClientInterface
     /**
      * @throws ApiErrorException
      */
-    public function handleErrorResponse($response, $httpStatus)
+
+    /**
+     * @param mixed $response
+     * @param int $httpStatus
+     * @return void
+     *
+     * @throws ApiErrorException
+     */
+    public function handleErrorResponse($response, int $httpStatus)
     {
         $reason = $response['reason'] ?? null;
 
@@ -273,6 +285,7 @@ class BaseClient implements ClientInterface
 
     /**
      * @param HttpClientInterface $httpClient
+     * @return void
      */
     public static function setHttpClient(HttpClientInterface $httpClient)
     {

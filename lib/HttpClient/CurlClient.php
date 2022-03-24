@@ -7,9 +7,9 @@ use CoinGate\Exception\UnexpectedValueException;
 
 class CurlClient implements ClientInterface
 {
-    const DEFAULT_TIMEOUT = 60;
+    public const DEFAULT_TIMEOUT = 60;
 
-    const DEFAULT_CONNECT_TIMEOUT = 20;
+    public const DEFAULT_CONNECT_TIMEOUT = 20;
 
     /**
      * @var int
@@ -22,7 +22,7 @@ class CurlClient implements ClientInterface
     private $connectTimeout = self::DEFAULT_CONNECT_TIMEOUT;
 
     /**
-     * @var array
+     * @var array<int, mixed>|callable|null
      */
     protected $defaultOptions;
 
@@ -46,7 +46,7 @@ class CurlClient implements ClientInterface
     }
 
     /**
-     * @param null|array|callable $defaultOptions
+     * @param array<int, mixed>|callable|null $defaultOptions
      */
     public function __construct($defaultOptions = null)
     {
@@ -54,7 +54,7 @@ class CurlClient implements ClientInterface
     }
 
     /**
-     * @return array|callable|null
+     * @return array<int, mixed>|callable|null
      */
     public function getDefaultOptions()
     {
@@ -62,7 +62,7 @@ class CurlClient implements ClientInterface
     }
 
     /**
-     * @param int $seconds
+     * @param  int $seconds
      * @return $this
      */
     public function setTimeout(int $seconds): self
@@ -73,7 +73,7 @@ class CurlClient implements ClientInterface
     }
 
     /**
-     * @param int $seconds
+     * @param  int $seconds
      * @return $this
      */
     public function setConnectTimeout(int $seconds): self
@@ -100,11 +100,11 @@ class CurlClient implements ClientInterface
     }
 
     /**
-     * @param string $method
-     * @param string $absUrl
-     * @param array $headers
-     * @param array $params
-     * @return array
+     * @param  string $method
+     * @param  string $absUrl
+     * @param  string[] $headers
+     * @param  array<string, string> $params
+     * @return array<array|mixed>
      */
     private function getRequestOptions(string $method, string $absUrl, array $headers = [], array $params = []): array
     {
@@ -163,11 +163,11 @@ class CurlClient implements ClientInterface
     }
 
     /**
-     * @param string $method
-     * @param string $absUrl
-     * @param array $headers
-     * @param array $params
-     * @return array
+     * @param  string $method
+     * @param  string $absUrl
+     * @param  string[] $headers
+     * @param  array<string, string> $params
+     * @return array<string|mixed>
      *
      * @throws ApiConnectionException
      */
@@ -204,8 +204,9 @@ class CurlClient implements ClientInterface
 
     /**
      * @param string $url
-     * @param int $errno
+     * @param int    $errno
      * @param string $message
+     * @return void
      *
      * @throws ApiConnectionException
      */
@@ -216,15 +217,15 @@ class CurlClient implements ClientInterface
             case CURLE_COULDNT_RESOLVE_HOST:
             case CURLE_OPERATION_TIMEOUTED:
                 $response = "Could not connect to CoinGate ($url). "
-                    . "Please check your internet connection and try again. ";
+                . "Please check your internet connection and try again. ";
 
                 break;
 
             case CURLE_SSL_CACERT:
             case CURLE_SSL_PEER_CERTIFICATE:
                 $response = "Could not verify CoinGate's SSL certificate. "
-                    . "Please make sure that your network is not intercepting certificates. "
-                    . "(Try going to $url in your browser.) ";
+                . "Please make sure that your network is not intercepting certificates. "
+                . "(Try going to $url in your browser.) ";
 
                 break;
 

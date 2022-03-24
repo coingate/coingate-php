@@ -9,5 +9,4 @@ use CoinGate\Exception\ApiErrorException;
  */
 class OrderNotFound extends ApiErrorException
 {
-
 }
