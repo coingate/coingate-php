@@ -65,7 +65,7 @@ $params = [
     'cancel_url'        => 'https://example.com/cart',
     'success_url'       => 'https://example.com/account/orders',
     'title'             => 'Order #112',
-    'description'       => 'Apple Iphone 6'
+    'description'       => 'Apple Iphone 13'
 ];
 
 try {
