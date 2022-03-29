@@ -2,16 +2,12 @@
 
 namespace CoinGate;
 
-class TestCase extends \PHPUnit_Framework_TestCase
+class TestCase extends \PHPUnit\Framework\TestCase
 {
-    const AUTH_TOKEN  = '-39RHqyAiyBmpwAEz9FcFxcVZDqbGmvKXTdHztny';
-    const ENVIRONMENT = 'sandbox';
+    public const APIKEY = 'dNcas65sfp6kYe9BJftmSkZiuD8Fwqas_Aj5PQwu';
 
-    public static function getGoodAuthentication()
+    protected function createSandboxClient(): Client
     {
-        return array(
-            'auth_token'  => self::AUTH_TOKEN,
-            'environment' => self::ENVIRONMENT,
-        );
+        return new Client(self::APIKEY, true);
     }
 }
