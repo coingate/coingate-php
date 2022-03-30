@@ -29,22 +29,22 @@ class BaseClient implements ClientInterface
     /**
      * @var string
      */
- const VERSION = '4.0.0';
+    public const VERSION = '4.0.0';
 
     /**
      * @var string default base URL for CoinBase's API
      */
- const DEFAULT_API_BASE = 'https://api.coingate.com';
+    public const DEFAULT_API_BASE = 'https://api.coingate.com';
 
     /**
      * @var string default base URL for CoinBase's API
      */
- const SANDBOX_DEFAULT_API_BASE = 'https://api-sandbox.coingate.com';
+    public const SANDBOX_DEFAULT_API_BASE = 'https://api-sandbox.coingate.com';
 
     /**
      * @var HttpClientInterface|null
      */
- static $httpClient = null;
+    protected static $httpClient = null;
 
     /**
      * @var array<string, mixed>
@@ -64,31 +64,37 @@ class BaseClient implements ClientInterface
     {
         $config = array_merge(
             $this->getDefaultConfig(),
-            ['api_key' => $apiKey, 'environment' => ! $useSandboxEnv ? 'live' : 'sandbox'
+            [
+            'api_key' => $apiKey,
+            'environment' => ! $useSandboxEnv ? 'live' : 'sandbox'
             ]
         );
-
-
 
         $this->validateConfig($config);
 
         // check if trying to connect to sandbox environment
         if ($useSandboxEnv) {
-
-
             $config['api_base'] = self::SANDBOX_DEFAULT_API_BASE;
         }
-
-
 
         $this->config = $config;
     }
 
+    /**
+     * Gets the API key used by the client to send requests.
+     *
+     * @return null|string
+     */
     public function getApiKey(): ?string
     {
         return $this->config['api_key'];
     }
 
+    /**
+     * Gets the base URL for CoinGate's API.
+     *
+     * @return string
+     */
     public function getApiBase(): string
     {
         return $this->config['api_base'];
