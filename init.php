@@ -1,16 +1,35 @@
 <?php
 
-// CoinGate Class
-require(dirname(__FILE__) . '/lib/CoinGate.php');
+// CoinGate client
+require __DIR__ . '/lib/ClientInterface.php';
+require __DIR__ . '/lib/BaseClient.php';
+require __DIR__ . '/lib/Client.php';
 
-// Exception Class
-require(dirname(__FILE__) . '/lib/APIError/APIError.php');
+// HttpClient
+require __DIR__ . '/lib/HttpClient/ClientInterface.php';
+require __DIR__ . '/lib/HttpClient/CurlClient.php';
 
-// Exception Class
-require(dirname(__FILE__) . '/lib/Exception.php');
+// Services
+require __DIR__ . '/lib/Services/AbstractService.php';
+require __DIR__ . '/lib/Services/AbstractServiceFactory.php';
+require __DIR__ . '/lib/Services/ServiceFactory.php';
+require __DIR__ . '/lib/Services/OrderService.php';
 
-// Merchant Class
-require(dirname(__FILE__) . '/lib/Merchant.php');
+// Exceptions
+require __DIR__ . '/lib/Exception/ApiConnectionException.php';
+require __DIR__ . '/lib/Exception/ApiErrorException.php';
+require __DIR__ . '/lib/Exception/InternalServerError.php';
+require __DIR__ . '/lib/Exception/InvalidArgumentException.php';
+require __DIR__ . '/lib/Exception/RateLimitException.php';
+require __DIR__ . '/lib/Exception/UnexpectedValueException.php';
+require __DIR__ . '/lib/Exception/UnknownApiErrorException.php';
 
-// Order Class
-require(dirname(__FILE__) . '/lib/Merchant/Order.php');
+// Exceptions (API specific)
+require __DIR__ . '/lib/Exception/Api/BadAuthToken.php';
+require __DIR__ . '/lib/Exception/Api/BadRequest.php';
+require __DIR__ . '/lib/Exception/Api/NotFound.php';
+require __DIR__ . '/lib/Exception/Api/OrderIsNotValid.php';
+require __DIR__ . '/lib/Exception/Api/OrderNotFound.php';
+require __DIR__ . '/lib/Exception/Api/Unauthorized.php';
+require __DIR__ . '/lib/Exception/Api/UnprocessableEntity.php';
+

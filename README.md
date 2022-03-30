@@ -1,14 +1,14 @@
 # CoinGate PHP library for API v2
 
-PHP library for CoinGate API.
+The CoinGate PHP library provides convenient access to the CoinGate API from applications written in the PHP language.
 
-You can sign up for a CoinGate account at <https://coingate.com> for production and <https://sandbox.coingate.com> for testing (sandbox).
+## Requirements
 
-Please note, that for Sandbox you must generate separate API credentials on <https://sandbox.coingate.com>. API credentials generated on <https://coingate.com> will not work for Sandbox mode.
+PHP 7.3.0 and later.
 
 ## Composer
 
-You can install library via [Composer](http://getcomposer.org/). Run the following command in your terminal:
+You can install library via [Composer](http://getcomposer.org/). Run the following command:
 
 ```bash
 composer require coingate/coingate-php
@@ -16,104 +16,121 @@ composer require coingate/coingate-php
 
 ## Manual Installation
 
-Donwload [latest release](https://github.com/coingate/coingate-php/releases) and include `init.php` file.
+If you do not wish to use Composer, you can download the [latest release](https://github.com/coingate/coingate-php/releases). Then, to use the library, include the `init.php` file.
 
 ```php
 require_once('/path/to/coingate-php/init.php');
 ```
 
+## Dependencies
+
+The library require the following extensions in order to work properly:
+
+-   [`curl`](https://secure.php.net/manual/en/book.curl.php), although you can use your own non-cURL client if you prefer
+-   [`json`](https://secure.php.net/manual/en/book.json.php)
+
+If you use Composer, these dependencies should be handled automatically. If you install manually, you'll want to make sure that these extensions are available.
+
 ## Getting Started
 
-Usage of CoinGate PHP library.
+You can sign up for a CoinGate account at <https://coingate.com> for production and <https://sandbox.coingate.com> for testing (sandbox).
 
-### Setting up CoinGate library
+Please note, that for Sandbox you must generate separate API credentials on <https://sandbox.coingate.com>. API credentials generated on <https://coingate.com> will not work for Sandbox mode.
 
-#### Setting default authentication
+Usage of CoinGate PHP library looks like:
 
 ```php
-use CoinGate\CoinGate;
-
-\CoinGate\CoinGate::config(array(
-    'environment'               => 'sandbox', // sandbox OR live
-    'auth_token'                => 'YOUR_AUTH_TOKEN',
-    'curlopt_ssl_verifypeer'    => TRUE // default is false
-));
-
-// $order = \CoinGate\Merchant\Order::find(7294);
+$client = new \CoinGate\Client('YOUR_API_TOKEN');
 ```
 
-#### Setting authentication individually
+In order, to use sandbox mode, you need to set second parameter to `true`.
 
 ```php
-use CoinGate\CoinGate;
-
-# \CoinGate\Merchant\Order::find($orderId, $options = array(), $authentication = array())
-
-$order = \CoinGate\Merchant\Order::find(1087999, array(), array(
-    'environment' => 'sandbox', // sandbox OR live
-    'auth_token' => 'YOUR_AUTH_TOKEN'));
+$client = new \CoinGate\Client('YOUR_API_TOKEN', true);
 ```
 
-### Creating Merchant Order
+## Payment Gateway
 
-https://developer.coingate.com/docs/create-order
+### Create Order
 
-```php
-use CoinGate\CoinGate;
-
-$post_params = array(
-                   'order_id'          => 'YOUR-CUSTOM-ORDER-ID-115',
-                   'price_amount'      => 1050.99,
-                   'price_currency'    => 'USD',
-                   'receive_currency'  => 'EUR',
-                   'callback_url'      => 'https://example.com/payments/callback?token=6tCENGUYI62ojkuzDPX7Jg',
-                   'cancel_url'        => 'https://example.com/cart',
-                   'success_url'       => 'https://example.com/account/orders',
-                   'title'             => 'Order #112',
-                   'description'       => 'Apple Iphone 6'
-               );
-
-$order = \CoinGate\Merchant\Order::create($post_params);
-
-if ($order) {
-    echo $order->status;
-    
-    print_r($order);
-} else {
-    # Order Is Not Valid
-}
-```
-
-### Getting Merchant Order
-
-https://developer.coingate.com/docs/get-order
+Create order at CoinGate and redirect shopper to invoice (payment_url).
 
 ```php
-use CoinGate\CoinGate;
+$params = [
+    'order_id'          => 'YOUR-CUSTOM-ORDER-ID-115',
+    'price_amount'      => 1050.99,
+    'price_currency'    => 'USD',
+    'receive_currency'  => 'EUR',
+    'callback_url'      => 'https://example.com/payments?token=6tCENGUYI62ojkuzDPX7Jg',
+    'cancel_url'        => 'https://example.com/cart',
+    'success_url'       => 'https://example.com/account/orders',
+    'title'             => 'Order #112',
+    'description'       => 'Apple Iphone 13'
+];
 
 try {
-    $order = \CoinGate\Merchant\Order::find(7294);
-
-    if ($order) {
-      var_dump($order);
-    }
-    else {
-      echo 'Order not found';
-    }
-} catch (Exception $e) {
-  echo $e->getMessage(); // BadCredentials Not found App by Access-Key
+    $order = $client->order->create($params);
+} catch (\CoinGate\Exception\ApiErrorException $e) {
+    // something went wrong...
 }
+
+echo $order->id;
 ```
 
-### Test API Credentials
+### Checkout
+
+Placing created order with pre-selected payment currency (BTC, LTC, ETH, etc). Display payment_address and pay_amount for shopper or redirect to payment_url. Can be used to white-label invoices.
 
 ```php
-$testConnection = \CoinGate\CoinGate::testConnection(array(
-  'environment'   => 'sandbox',
-  'auth_token'    => 'YOUR_AUTH_TOKEN'
-));
+$checkout = $client->order->checkout(7294, [
+    'pay_currency' => 'BTC'
+]);
+```
 
-if ($testConnection !== true) {
-  echo $testConnection; // CoinGate\BadCredentials: BadCredentials Not found App by Access-Key
-}
+### Get Order
+
+After creating an order, you will get an ORDER ID. This ID will be used for GET ORDER requests.
+
+```php
+$order = $client->order->get(7294);
+```
+
+### List Orders
+
+Retrieving information of all placed orders.
+
+```php
+$orders = $client->order->list([
+    'created_at' => [
+        'from' => '2022-01-25'
+    ]
+]);
+```
+
+## Custom Request Timeout
+
+To modify request timeouts (connect or total, in seconds) you'll need to tell the API client to use a CurlClient other than its default. You'll set the timeouts in that CurlClient.
+
+```php
+// set up your tweaked Curl client
+$curl = new \CoinGate\HttpClient\CurlClient();
+$curl->setTimeout(10);
+$curl->setConnectTimeout(5);
+
+// tell CoinGate Library to use the tweaked Curl client
+\CoinGate\Client::setHttpClient($curl);
+
+// use the CoinBase API client as you normally would
+```
+
+## Test API Connection
+
+```php
+$result = \CoinGate\Client::testConnection('YOUR_API_TOKEN');
+```
+
+In order, to test API connection on sandbox mode, you need to set second parameter to `true`.
+
+```php
+$result = \CoinGate\Client::testConnection('YOUR_API_TOKEN', true);
 ```
