@@ -7,7 +7,7 @@ namespace CoinGate\Resources;
  *
  * @property string $pay_currency
  * @property string $pay_amount
- * @property string $expired_at
+ * @property string $expire_at
  * @property string $payment_address
  */
 class Checkout extends Order
