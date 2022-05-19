@@ -40,4 +40,22 @@ class BaseClientTest extends TestCase
 
         $client->request('get', '/v2/orders/1');
     }
+
+    public function testPublicRequestWithEmptyApiKey()
+    {
+        $client = new BaseClient();
+
+        $response = $client->request('get', '/v2/ping');
+
+        $this->assertObjectHasAttribute('ping', $response);
+    }
+
+    public function testApiKeyAssignment()
+    {
+        $client = new BaseClient();
+
+        $client->setApiKey(self::APIKEY);
+
+        $this->assertEquals($client->getApiKey(), self::APIKEY);
+    }
 }

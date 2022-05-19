@@ -40,7 +40,7 @@ abstract class AbstractService
      *
      * @param string $method the HTTP method
      * @param string $path   the path of the request
-     * @param string[] $params the parameters of the request
+     * @param array<string, mixed> $params the parameters of the request
      * @return mixed
      */
     protected function request(string $method, string $path, array $params = [])

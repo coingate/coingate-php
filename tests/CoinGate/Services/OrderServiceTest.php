@@ -6,9 +6,6 @@ use CoinGate\TestCase;
 
 class OrderServiceTest extends TestCase
 {
-    /** @var Client */
-    private $client;
-
     /** @var OrderService */
     private $service;
 
@@ -17,8 +14,9 @@ class OrderServiceTest extends TestCase
      */
     protected function setUpService()
     {
-        $this->client = $this->createSandboxClient();
-        $this->service = new OrderService($this->client);
+        $client = $this->createSandboxClient();
+
+        $this->service = new OrderService($client);
     }
 
     public function testCreateOrder()

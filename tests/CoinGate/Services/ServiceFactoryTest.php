@@ -27,7 +27,9 @@ class ServiceFactoryTest extends TestCase
      */
     protected function setUpService()
     {
-        $this->factory = new ServiceFactory($this->createSandboxClient());
+        $client = $this->createSandboxClient();
+
+        $this->factory = new ServiceFactory($client);
     }
 
     /**
