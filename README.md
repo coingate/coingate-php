@@ -75,7 +75,7 @@ $params = [
     'cancel_url'        => 'https://example.com/cart',
     'success_url'       => 'https://example.com/account/orders',
     'title'             => 'Order #112',
-    'description'       => 'Apple Iphone 6'
+    'description'       => 'Apple Iphone 13'
 ];
 
 try {
@@ -185,7 +185,7 @@ $curl->setConnectTimeout(5);
 // tell CoinGate Library to use the tweaked Curl client
 \CoinGate\Client::setHttpClient($curl);
 
-// use the CoinBase API client as you normally would
+// use the CoinGate API client as you normally would
 ```
 
 ## Test API Connection
