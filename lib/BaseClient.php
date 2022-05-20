@@ -17,19 +17,21 @@ use CoinGate\Exception\UnknownApiErrorException;
 use CoinGate\HttpClient\ClientInterface as HttpClientInterface;
 use CoinGate\HttpClient\CurlClient;
 use CoinGate\Services\OrderService;
+use CoinGate\Services\PublicService;
 use Exception;
 
 /**
  * Client used to send requests to CoinGate's API
  *
  * @property OrderService $order
+ * @mixin PublicService
  */
 class BaseClient implements ClientInterface
 {
     /**
      * @var string
      */
-    public const VERSION = '4.0.0';
+    public const VERSION = '4.1.0';
 
     /**
      * @var string default base URL for CoinBase's API
@@ -47,6 +49,11 @@ class BaseClient implements ClientInterface
     protected static $httpClient = null;
 
     /**
+     * @var array<string, string>|null
+     */
+    protected static $appInfo = null;
+
+    /**
      * @var array<string, mixed>
      */
     private $config;
@@ -57,16 +64,16 @@ class BaseClient implements ClientInterface
      * The constructor takes a single argument. The argument can be a string, in which case it
      * should be the API key. It can also be an array with various configuration settings.
      *
-     * @param mixed      $apiKey
+     * @param mixed $apiKey
      * @param bool|false $useSandboxEnv
      */
-    public function __construct($apiKey, bool $useSandboxEnv = false)
+    public function __construct($apiKey = null, bool $useSandboxEnv = false)
     {
         $config = array_merge(
             $this->getDefaultConfig(),
             [
-            'api_key' => $apiKey,
-            'environment' => ! $useSandboxEnv ? 'live' : 'sandbox'
+                'api_key' => $apiKey,
+                'environment' => ! $useSandboxEnv ? 'live' : 'sandbox'
             ]
         );
 
@@ -83,11 +90,23 @@ class BaseClient implements ClientInterface
     /**
      * Gets the API key used by the client to send requests.
      *
-     * @return null|string
+     * @return string|null
      */
     public function getApiKey(): ?string
     {
         return $this->config['api_key'];
+    }
+
+    /**
+     * @param string|null $apiKey
+     * @return $this
+     */
+    public function setApiKey(string $apiKey = null): BaseClient
+    {
+        $this->config['api_key'] = $apiKey;
+        $this->validateConfig($this->config);
+
+        return $this;
     }
 
     /**
@@ -108,6 +127,18 @@ class BaseClient implements ClientInterface
     public function getEnvironment(): string
     {
         return $this->config['environment'];
+    }
+
+    /**
+     * @param string $environment
+     * @return $this
+     */
+    public function setEnvironment(string $environment): BaseClient
+    {
+        $this->config['environment'] = $environment;
+        $this->validateConfig($this->config);
+
+        return $this;
     }
 
     /**
@@ -166,7 +197,7 @@ class BaseClient implements ClientInterface
      * @param  string $method
      * @return string[]
      */
-    private function getDefaultHeaders(string $method): array
+    protected function getDefaultHeaders(string $method): array
     {
         $headers = [];
 
@@ -178,7 +209,12 @@ class BaseClient implements ClientInterface
             $headers[] = 'Content-Type: application/x-www-form-urlencoded';
         }
 
-        $headers[] = 'User-Agent: CoinGate/v2 (PHP Library v' . self::VERSION . ')';
+        if (($appInfo = self::getAppInfo()) !== null) {
+            $headers[] = 'User-Agent: CoinGate/v2 (PHP Library v' . self::VERSION . ', '
+                . $appInfo['name'] . (! empty($appInfo['version']) ? ' v' . $appInfo['version'] : '') . ')';
+        } else {
+            $headers[] = 'User-Agent: CoinGate/v2 (PHP Library v' . self::VERSION . ')';
+        }
 
         return $headers;
     }
@@ -302,5 +338,24 @@ class BaseClient implements ClientInterface
         }
 
         return self::$httpClient;
+    }
+
+    /**
+     * @return array<string, string>|null The application's information
+     */
+    public static function getAppInfo(): ?array
+    {
+        return self::$appInfo;
+    }
+
+    /**
+     * @param string $appName The application's name
+     * @param null|string $appVersion The application's version
+     */
+    public static function setAppInfo(string $appName, string $appVersion = null): void
+    {
+        self::$appInfo = [];
+        self::$appInfo['name'] = trim($appName);
+        self::$appInfo['version'] = trim($appVersion);
     }
 }

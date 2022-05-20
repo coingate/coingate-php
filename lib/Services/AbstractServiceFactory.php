@@ -17,12 +17,20 @@ abstract class AbstractServiceFactory
     private $services;
 
     /**
+     * @var PublicService
+     */
+    private $publicService;
+
+    /**
      * @param ClientInterface $client
      */
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
         $this->services = [];
+
+        // initialize public service
+        $this->publicService = new PublicService($client);
     }
 
     /**
@@ -57,5 +65,20 @@ abstract class AbstractServiceFactory
         }
 
         return $this->services[$name];
+    }
+
+    /**
+     * @param string $name
+     * @param array<int, mixed> $arguments
+     * @return PublicService|null
+     */
+    public function __call(string $name, array $arguments)
+    {
+        if (! method_exists($this->publicService, $name)) {
+            trigger_error('Call to undefined method ' . static::class . '::' . $name . '()');
+            return null;
+        }
+
+        return $this->publicService->{$name}(...$arguments);
     }
 }

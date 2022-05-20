@@ -49,7 +49,17 @@ In order, to use sandbox mode, you need to set second parameter to `true`.
 $client = new \CoinGate\Client('YOUR_API_TOKEN', true);
 ```
 
-## Payment Gateway
+If you plan to use Public API endpoints only, authentication is not required.
+
+```php
+$client = new CoinGate\Client();
+
+// if needed you can set configuration parameters later
+$client->setApiKey('YOUR_API_TOKEN');
+$client->setEnvironment('sandbox');
+```
+
+## Payment Gateway API
 
 ### Create Order
 
@@ -65,7 +75,7 @@ $params = [
     'cancel_url'        => 'https://example.com/cart',
     'success_url'       => 'https://example.com/account/orders',
     'title'             => 'Order #112',
-    'description'       => 'Apple Iphone 13'
+    'description'       => 'Apple Iphone 6'
 ];
 
 try {
@@ -107,6 +117,61 @@ $orders = $client->order->list([
 ]);
 ```
 
+## Public API
+
+### Get Exchange Rate
+
+Current exchange rate for any two currencies, fiat or crypto. This endpoint is public, authentication is not required.
+
+```php
+$client->getExchangeRate('BTC', 'EUR');
+```
+
+### List Exchange Rates
+
+Current CoinGate exchange rates for Merchants and Traders. This endpoint is public, authentication is not required.
+
+```php
+$client->listExchangeRates();
+```
+
+### Ping
+
+A health check endpoint for CoinGate API. This endpoint is public, authentication is not required.
+
+```php
+$client->ping();
+```
+
+### IP Addresses
+
+Get IP addresses of CoinGate servers
+
+```php
+$client->getIPAddresses();
+```
+
+### Currencies
+
+```php
+$client->getCurrencies();
+
+// Crypto + Native + Merchant Pay 
+$client->getCheckoutCurrencies();
+
+// get Merchant Pay currencies only
+$client->getMerchantPayCurrencies();
+
+// get Merchant Receive currencies only
+$client->getMerchantPayoutCurrencies();
+```
+
+### Platforms
+
+```php
+$client->getPlatforms();
+```
+
 ## Custom Request Timeout
 
 To modify request timeouts (connect or total, in seconds) you'll need to tell the API client to use a CurlClient other than its default. You'll set the timeouts in that CurlClient.
@@ -134,3 +199,13 @@ In order, to test API connection on sandbox mode, you need to set second paramet
 ```php
 $result = \CoinGate\Client::testConnection('YOUR_API_TOKEN', true);
 ```
+
+## Attention plugin developers
+
+Are you writing a plugin that integrates CoinGate and embeds our library? Then please use the setAppInfo function to identify your plugin. For example:
+
+```php
+\CoinGate\Client::setAppInfo("MyAwesomePlugin", "1.0.0");
+```
+
+The method should be called once, before any request is sent to the API. The second parameter is optional.

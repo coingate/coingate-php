@@ -3,6 +3,7 @@
 namespace CoinGate;
 
 use CoinGate\Services\AbstractService;
+use CoinGate\Services\PublicService;
 use CoinGate\Services\ServiceFactory;
 
 /**
@@ -13,7 +14,18 @@ class Client extends BaseClient
     /**
      * @var ServiceFactory
      */
-    private $factory;
+    protected $factory;
+
+    /**
+     * @param mixed $apiKey
+     * @param bool $useSandboxEnv
+     */
+    public function __construct($apiKey = null, bool $useSandboxEnv = false)
+    {
+        parent::__construct($apiKey, $useSandboxEnv);
+
+        $this->factory = new ServiceFactory($this);
+    }
 
     /**
      * @param string $name
@@ -21,10 +33,16 @@ class Client extends BaseClient
      */
     public function __get(string $name)
     {
-        if ($this->factory === null) {
-            $this->factory = new ServiceFactory($this);
-        }
-
         return $this->factory->__get($name);
+    }
+
+    /**
+     * @param string $name
+     * @param array<int,mixed> $arguments
+     * @return PublicService|null
+     */
+    public function __call(string $name, array $arguments)
+    {
+        return $this->factory->__call($name, $arguments);
     }
 }

@@ -4,7 +4,7 @@ namespace CoinGate;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
-    public const APIKEY = 'dNcas65sfp6kYe9BJftmSkZiuD8Fwqas_Aj5PQwu';
+    public const APIKEY = '-Lj8CYksfaJw_VwoCPMEPUKiLDnFFGKz7szNKXYp';
 
     protected function createSandboxClient(): Client
     {
