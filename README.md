@@ -59,6 +59,9 @@ $client->setApiKey('YOUR_API_TOKEN');
 $client->setEnvironment('sandbox');
 ```
 
+### Example
+An example of an app using this SDK can be found [here](https://github.com/coingate/laravel-demo)
+
 ## Payment Gateway API
 
 ### Create Order
