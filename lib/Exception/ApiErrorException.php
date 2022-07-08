@@ -29,7 +29,7 @@ class ApiErrorException extends Exception
      * @param int            $code
      * @param Throwable|null $previous
      */
-    final protected function __construct($message = "", $code = 0, Throwable $previous = null)
+    final public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }
