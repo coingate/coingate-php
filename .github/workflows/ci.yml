@@ -29,5 +29,8 @@ jobs:
       - name: Update
         run: composer update
 
+      - name: Update
+        run: composer update
+
       - name: Run the unit tests
         run: vendor/bin/phpunit --colors=always tests
