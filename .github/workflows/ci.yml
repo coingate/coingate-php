@@ -3,28 +3,7 @@ name: CI
 on: [push]
 
 jobs:
-  coding-style:
-    name: Coding Style
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.0
-          tools: composer, cs2pr
-          coverage: none
 
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install the dependencies
-        run: composer install --no-interaction --no-suggest
-
-      - name: Check the coding style
-        run: vendor/bin/phpcs --standard=PSR12 --report=checkstyle lib | cs2pr --graceful-warnings
-
-      - name: Analyze the code
-        run: vendor/bin/phpstan analyse lib --level=7 --no-progress
 
   tests:
     name: PHP ${{ matrix.php }}
@@ -32,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [7.4, 8.1]
+        php: [7.1]
 
     steps:
       - name: Setup PHP
@@ -46,6 +25,9 @@ jobs:
 
       - name: Install the dependencies
         run: composer install --no-interaction --no-suggest
+        
+      - name: Update
+        run: composer update
 
       - name: Run the unit tests
         run: vendor/bin/phpunit --colors=always tests
