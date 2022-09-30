@@ -58,9 +58,10 @@ $client = new CoinGate\Client();
 $client->setApiKey('YOUR_API_TOKEN');
 $client->setEnvironment('sandbox');
 ```
+Full documentation of the CoinGate API can be found [here](https://developer.coingate.com/reference/api-overview)
 
 ### Example
-An example of an app using this SDK can be found [here](https://github.com/coingate/laravel-demo)
+An example of an app using this library can be found [here](https://github.com/coingate/laravel-demo)
 
 ## Payment Gateway API
 
