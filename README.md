@@ -86,6 +86,7 @@ try {
     $order = $client->order->create($params);
 } catch (\CoinGate\Exception\ApiErrorException $e) {
     // something went wrong...
+    // var_dump($e->getErrorDetails());
 }
 
 echo $order->id;
