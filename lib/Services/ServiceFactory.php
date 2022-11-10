@@ -14,7 +14,10 @@ class ServiceFactory extends AbstractServiceFactory
      * @var array<string, string>
      */
     private static $classMap = [
-        'order' => OrderService::class
+        'order' => OrderService::class,
+        'refund' => RefundService::class,
+        'ledger' => LedgerService::class,
+        'withdrawal' => WithdrawalService::class
     ];
 
     /**

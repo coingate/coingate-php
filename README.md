@@ -122,6 +122,123 @@ $orders = $client->order->list([
 ]);
 ```
 
+## Refund API
+
+### Create Order Refund
+
+Creating a refund for an order.
+
+```php
+$params = [
+    'amount'            => 50,
+    'address'           => '2ExAmPl3dyFiqkMUUksTJ3Qey1s2Q3f4i59',
+    'address_memo'      => 'Blue house', // optional
+    'currency_id'       => 1,
+    'platform_id'       => 2,
+    'reason'            => 'Iphone refund',
+    'email'             => 'example.guy@xmpl.com',
+    'ledger_account_id' => 'ID of the trader balance'
+];
+
+try {
+    $refund = $client->refund->create(7294, $params);
+} catch (\CoinGate\Exception\ApiErrorException $e) {
+    // something went wrong...
+}
+
+echo $refund->id;
+```
+
+### Get Order Refund
+
+Retrieves a specific refund for an order.
+
+```php
+$refund = $client->refund->get(7294, 4927);
+```
+
+### Get Order Refunds
+
+Retrieves all refunds for an order.
+
+```php
+// optional filters
+$params = [
+    'page' => 2,
+    'per_page' => 30
+]
+
+$orderRefunds = $client->refund->list(7294, $params);
+```
+
+### Get Refunds
+
+Retrieves all refunds.
+
+```php
+$refunds = $client->refund->list();
+```
+
+or
+
+```php
+// optional filters
+$params = [
+    'page' => 2,
+    'per_page' => 30
+]
+
+$refunds = $client->refund->list(null, $params);
+```
+
+## Ledger API
+
+### Get Account
+
+Retrieves a specific ledger account.
+
+```php
+$account = $client->ledger->get('01G0EM0RRVREB4WD5KDB6VJVPM');
+```
+
+### Get Accounts
+
+Retrieves all ledger accounts.
+
+```php
+// optional filters
+$params = [
+    'page' => 2,
+    'per_page' => 30
+]
+
+$accounts = $client->ledger->list($params);
+```
+
+## Withdrawal API
+
+### Get Withdrawal
+
+Retrieving specific withdrawal.
+
+```php
+$withdrawal = $client->withdrawal->get(1234);
+```
+
+### Get Withdrawals
+
+Retrieving all withdrawals.
+
+```php
+// optional filters
+$params = [
+    'page' => 2,
+    'per_page' => 30
+]
+
+$withdrawals = $client->withdrawal->list($params);
+```
+
 ## Public API
 
 ### Get Exchange Rate
@@ -161,7 +278,7 @@ $client->getIPAddresses();
 ```php
 $client->getCurrencies();
 
-// Crypto + Native + Merchant Pay 
+// Crypto + Native + Merchant Pay
 $client->getCheckoutCurrencies();
 
 // get Merchant Pay currencies only
