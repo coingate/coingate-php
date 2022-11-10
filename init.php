@@ -15,6 +15,9 @@ require __DIR__ . '/lib/Services/AbstractServiceFactory.php';
 require __DIR__ . '/lib/Services/ServiceFactory.php';
 require __DIR__ . '/lib/Services/OrderService.php';
 require __DIR__ . '/lib/Services/PublicService.php';
+require __DIR__ . '/lib/Services/RefundService.php';
+require __DIR__ . '/lib/Services/LedgerService.php';
+require __DIR__ . '/lib/Services/WithdrawalService.php';
 
 // Exceptions
 require __DIR__ . '/lib/Exception/ApiConnectionException.php';
@@ -33,3 +36,7 @@ require __DIR__ . '/lib/Exception/Api/OrderIsNotValid.php';
 require __DIR__ . '/lib/Exception/Api/OrderNotFound.php';
 require __DIR__ . '/lib/Exception/Api/Unauthorized.php';
 require __DIR__ . '/lib/Exception/Api/UnprocessableEntity.php';
+require __DIR__ . '/lib/Exception/Api/RefundIsNotValid.php';
+require __DIR__ . '/lib/Exception/Api/RefundNotFound.php';
+require __DIR__ . '/lib/Exception/Api/LedgerAccountNotFound.php';
+require __DIR__ . '/lib/Exception/Api/WithdrawalNotFound.php';

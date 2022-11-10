@@ -7,8 +7,12 @@ use CoinGate\Exception\Api\BadRequest;
 use CoinGate\Exception\Api\NotFound;
 use CoinGate\Exception\Api\OrderIsNotValid;
 use CoinGate\Exception\Api\OrderNotFound;
+use CoinGate\Exception\Api\RefundIsNotValid;
+use CoinGate\Exception\Api\RefundNotFound;
+use CoinGate\Exception\Api\LedgerAccountNotFound;
 use CoinGate\Exception\Api\Unauthorized;
 use CoinGate\Exception\Api\UnprocessableEntity;
+use CoinGate\Exception\Api\WithdrawalNotFound;
 use CoinGate\Exception\ApiErrorException;
 use CoinGate\Exception\InvalidArgumentException;
 use CoinGate\Exception\InternalServerError;
@@ -18,12 +22,18 @@ use CoinGate\HttpClient\ClientInterface as HttpClientInterface;
 use CoinGate\HttpClient\CurlClient;
 use CoinGate\Services\OrderService;
 use CoinGate\Services\PublicService;
+use CoinGate\Services\RefundService;
+use CoinGate\Services\LedgerService;
+use CoinGate\Services\WithdrawalService;
 use Exception;
 
 /**
  * Client used to send requests to CoinGate's API
  *
  * @property OrderService $order
+ * @property RefundService $refund
+ * @property LedgerService $ledger
+ * @property WithdrawalService $withdrawal
  * @mixin PublicService
  */
 class BaseClient implements ClientInterface
@@ -31,7 +41,7 @@ class BaseClient implements ClientInterface
     /**
      * @var string
      */
-    public const VERSION = '4.1.0';
+    public const VERSION = '4.2.0';
 
     /**
      * @var string default base URL for CoinBase's API
@@ -293,14 +303,26 @@ class BaseClient implements ClientInterface
             }
         } elseif ($httpStatus === 404) {
             switch ($reason) {
+                case 'RefundNotFound':
+                    throw RefundNotFound::factory($response, $httpStatus);
+
+                case 'LedgerAccountNotFound':
+                    throw LedgerAccountNotFound::factory($response, $httpStatus);
+
                 case 'OrderNotFound':
                     throw OrderNotFound::factory($response, $httpStatus);
+
+                case 'WithdrawalNotFound':
+                    throw WithdrawalNotFound::factory($response, $httpStatus);
 
                 default:
                     throw NotFound::factory($response, $httpStatus);
             }
         } elseif ($httpStatus === 422) {
             switch ($reason) {
+                case 'RefundIsNotValid':
+                    throw RefundIsNotValid::factory($response, $httpStatus);
+
                 case 'OrderIsNotValid':
                     throw OrderIsNotValid::factory($response, $httpStatus);
 

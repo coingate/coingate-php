@@ -1,6 +1,20 @@
 CoinGate PHP library release notes
 ============================
 
+v4.2.0
+---
+* Added support for Refund API calls.
+  - Added support for [Create Order Refund](https://developer.coingate.com/reference/create-refund)
+  - Added support for [Get Order Refund](https://developer.coingate.com/reference/get-order-refund)
+  - Added support for [Get Order Refunds](https://developer.coingate.com/reference/get-refund)
+  - Added support for [Get Refunds](https://developer.coingate.com/reference/get-refunds)
+* Added support for Ledger API calls.
+  - Added support for [Get Account](https://developer.coingate.com/reference/get-account)
+  - Added support for [List Accounts](https://developer.coingate.com/reference/accounts)
+* Added support for Withdrawal API calls.
+  - Added support for [Get Withdrawals](https://developer.coingate.com/reference/get-withdrawals)
+  - Added support for [Get Withdrawal](https://developer.coingate.com/reference/get-withdrawal)
+
 v4.1.0
 ---
 * ApiKey is no more mandatory when creating a Client. Useful when you want to perform Public API calls only.
